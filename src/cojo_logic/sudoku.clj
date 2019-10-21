@@ -138,9 +138,6 @@
   solution
   (print-board solution))
 
-#_(defn transpose [matrix]
-    (into [] (apply map vector matrix)))
-
 ;;
 ;; DONE!
 ;;
