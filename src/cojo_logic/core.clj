@@ -188,4 +188,15 @@
                            7 8 9]))
   ;; => [[1 4 7] [2 5 8] [3 6 9]]
 
+  ;; ASSIGNMENT
+  ;; Extend the query above to not only cause all rows to have distinct numbers,
+  ;; but also all columns.
+
+  ;; SOLUTION
+
+  ;; ASSIGNMENT
+  ;; Extend the query to not only cause all rows and columns to have distinct
+  ;; numbers, but also all 3x3 squares of the puzzle.
+
+  ;; SOLUTION 
   )
