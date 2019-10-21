@@ -150,11 +150,29 @@
       succeed))                              ; end of recursion: start with success
 
   (let [hints [0 5 0 0 3 0 0 0 0]
-        vars (repeatedly 9 lvar)]
+        vars (repeatedly (count hints) lvar)]
     (run 3 [q]
          (== q vars)
          (init vars hints)
          (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)
          (fd/distinct vars)))
   ;; => ((1 5 2 4 3 6 7 8 9) (2 5 1 4 3 6 7 8 9) (1 5 4 2 3 6 7 8 9))
+
+  ;; Let's extend this to two rows instead of one.
+  (defn rows [elements]
+    (partition 9 elements))
+
+  (let [hints [0 5 0 0 3 0 0 0 0
+               7 0 0 0 0 9 0 0 0]
+        vars (repeatedly (count hints) lvar)
+        rows (rows vars)]
+    (run 1 [q]
+         (== q vars)
+         (init vars hints)
+         (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)
+         (everyg fd/distinct rows)))
+  ;; => ((1 5 2 4 3 6 7 8 9
+  ;;      7 1 2 3 4 9 5 6 8))
+
+  ;; You can probably see how this extends to 9 rows instead of just two.
   )
