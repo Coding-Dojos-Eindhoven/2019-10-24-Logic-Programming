@@ -29,6 +29,12 @@
   (run* [q]
         (membero q [1 2 3 4]))
   ;; => (1 2 3 4)
+  ;; Interpretation: q can be 1, 2, 3, or 4 to satisfy the goal that it has
+  ;; to be a member of the list [1 2 3 4]. 
+  (run* [q]
+        (membero 42 [1 2 q 4]))
+  ;; => (42)
+  ;; Interpretation: 42 can only be a member of the list [1 2 q 4] if q is 42.
 
   ;; You can define contraints:
   (defnc evenc [n]
@@ -37,6 +43,8 @@
         (membero q (range 10))
         (evenc q))
   ;; => (0 2 4 6 8)
+  ;; Interpretation: given that q is in the range 0-9, and that q must be even,
+  ;; q can be 0, 2, 4, 6, or 8.
 
   ;; You can also use the package `clojure.core.logic.fd` for
   ;; finite domains. This is a lot faster than simply using
@@ -52,6 +60,9 @@
   ;; => "\"Elapsed time: 263.215347 msecs\"\n"
 
   ;; Fun with collections:
+  (cons 1 [2 3 4]) ;; normal clojure operator `cons`
+  ;; => (1 2 3 4)
+
   (run* [q]
         (conso q [2 3 4] [1 2 3 4]))
   ;; => (1)
