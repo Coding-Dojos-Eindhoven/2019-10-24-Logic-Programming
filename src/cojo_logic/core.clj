@@ -175,4 +175,17 @@
   ;;      7 1 2 3 4 9 5 6 8))
 
   ;; You can probably see how this extends to 9 rows instead of just two.
+  ;; Columns are next. A small utility:
+
+  (defn transpose
+    "Transposes a matrix. Represents the matrix as a list of columns
+     instead of rows."
+    [matrix]
+    (into [] (apply map vector matrix)))
+
+  (transpose (partition 3 [1 2 3
+                           4 5 6
+                           7 8 9]))
+  ;; => [[1 4 7] [2 5 8] [3 6 9]]
+
   )
