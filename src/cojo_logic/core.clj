@@ -130,7 +130,7 @@
   ;; => ((_0 _1 _2 _3 _4 _5 _6 _7 _8))
 
   ;; And constrain them to a domain:
-  (defn constrain-var-domain
+  (defn constrain-to-domain
     "Returns a goal that causes the given variable to be constrained
      to a number between 1 and 9."
     [v]
@@ -138,7 +138,7 @@
   (let [vars (repeatedly 9 lvar)]
     (run 3 [q]
          (== q vars)
-         (everyg constrain-var-domain vars)))
+         (everyg constrain-to-domain vars)))
   ;; => ((1 1 1 1 1 1 1 1 1) (2 1 1 1 1 1 1 1 1) (1 2 1 1 1 1 1 1 1))
 
   ;; ASSIGNMENT
@@ -177,7 +177,7 @@
     (run 3 [q]
          (== q vars)
          (init vars hints)
-         (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)
+         (everyg constrain-to-domain vars)
          (fd/distinct vars)))
   ;; => ((1 5 2 4 3 6 7 8 9) (2 5 1 4 3 6 7 8 9) (1 5 4 2 3 6 7 8 9))
 
@@ -192,7 +192,7 @@
     (run 1 [q]
          (== q vars)
          (init vars hints)
-         (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)
+         (everyg constrain-to-domain vars)
          (everyg fd/distinct rows)))
   ;; => ((1 5 2 4 3 6 7 8 9
   ;;      7 1 2 3 4 9 5 6 8))
@@ -232,7 +232,7 @@
                   (run 1 [q]
                        (== q vars)
                        (init vars hints)
-                       (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)
+                       (everyg constrain-to-domain vars)
                        (everyg fd/distinct rows)
                        (everyg fd/distinct cols)))))
   ;; => ((2 4 7 3 1 9 5 6 8)
