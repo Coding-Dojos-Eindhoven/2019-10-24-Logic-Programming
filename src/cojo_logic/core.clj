@@ -180,9 +180,9 @@
 
   ;; Let's extend this to two rows instead of one.
   (defn rows [elements]
-    (partition 9 elements))
+    (mapv vec (partition 9 elements)))
   (rows [0 5 0 0 3 0 0 0 0 7 0 0 0 0 9 0 0 0])
-  ;; => ((0 5 0 0 3 0 0 0 0) (7 0 0 0 0 9 0 0 0))
+  ;; => [[0 5 0 0 3 0 0 0 0] [7 0 0 0 0 9 0 0 0]]
 
   (let [hints [0 5 0 0 3 0 0 0 0
                7 0 0 0 0 9 0 0 0]
