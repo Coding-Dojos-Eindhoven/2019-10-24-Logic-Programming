@@ -161,22 +161,19 @@
   ;; the other numbers. For example, [0 5 0 0 3 0 0 0 0] says that the second
   ;; number should be 5, and the fifth should be 3.
 
-  (defn bind [vars hints]
-    (if (seq vars)                           ; recursion stopping criterion; while non-empty:
-      (let [var (first vars)                 ; take the first var in the list
-            hint (first hints)]              ; and the first hint
-        (all                                 ; all following goals need to be satisfied:
-         (if-not (zero? hint)                ;   if a hint was given
-           (== var hint)                     ;     unify the var with that hint
-           succeed)                          ;     otherwise no constraints here, go on
-         (bind (next vars) (next hints))))   ;   recursive call with rest of vars and hints
-      succeed))                              ; end of recursion: start with success
+  (defn bind [var hint]
+    (if-not (zero? hint)
+      (== var hint)
+      succeed))
+
+  (defn bind-all [vars hints]
+    (and* (map bind vars hints)))
 
   (let [hints [0 5 0 0 3 0 0 0 0]
         vars (repeatedly (count hints) lvar)]
     (run 3 [q]
          (== q vars)
-         (bind vars hints)
+         (bind-all vars hints)
          (everyg constrain-to-domain vars)
          (fd/distinct vars)))
   ;; => ((1 5 2 4 3 6 7 8 9) (2 5 1 4 3 6 7 8 9) (1 5 4 2 3 6 7 8 9))
@@ -193,7 +190,7 @@
         rows (rows vars)]
     (run 1 [q]
          (== q vars)
-         (bind vars hints)
+         (bind-all vars hints)
          (everyg constrain-to-domain vars)
          (everyg fd/distinct rows)))
   ;; => ((1 5 2 4 3 6 7 8 9
@@ -233,7 +230,7 @@
                       cols (transpose rows)]
                   (run 1 [q]
                        (== q vars)
-                       (bind vars hints)
+                       (bind-all vars hints)
                        (everyg constrain-to-domain vars)
                        (everyg fd/distinct rows)
                        (everyg fd/distinct cols)))))
