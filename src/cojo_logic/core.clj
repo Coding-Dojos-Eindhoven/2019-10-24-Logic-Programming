@@ -75,9 +75,10 @@
         (conso 1 [2 3 4] [1 2 q 4]))
   ;; => (3)
 
-  ;; Logical disjunction means: any of the goals should be satisfied
+  ;; Logical conjunction means: all goals have to be satisfied
   (run* [q] (== q 3) (== q 6))
   ;; => ()
+  ;; Logical disjunction means: any one of the goals has to be be satisfied
   (run* [q] (conde [(== q 3)]
                    [(== q 6)]))
   ;; => (3 6)
@@ -95,8 +96,12 @@
   ;; => (4 6 8 10 12 14 16)
 
   ;; ASSIGNMENT
-  ;; Find all solutions of the equation a * b = c for  all
-  ;; values of c in 2150 - 2200.
+  ;; Find all solutions of the equation a * b = 2172.
+  ;;
+  ;; Note: if you have a solution and if you're patient, you could even
+  ;; find all sulutions for  all values of c in 2150 - 2200 in a * b = c.
+  ;; The search space for that is quite large, so you may want to be a bit
+  ;; clever about the way you solve it... 
 
   ;; SOLUTION
   (defnc is-prod? [a b c]
@@ -120,20 +125,26 @@
 
   ;; This technique allows us to dynamically introduce a number of variables:
   (let [vars (repeatedly 9 lvar)]
-    (run 3 [q]
-         (== q vars)))
+    (run* [q]
+          (== q vars)))
   ;; => ((_0 _1 _2 _3 _4 _5 _6 _7 _8))
 
   ;; And constrain them to a domain:
+  (defn constrain-var-domain
+    "Returns a goal that causes the given variable to be constrained
+     to a number between 1 and 9."
+    [v]
+    (fd/in v (fd/domain 1 2 3 4 5 6 7 8 9)))
   (let [vars (repeatedly 9 lvar)]
     (run 3 [q]
          (== q vars)
-         (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)))
+         (everyg constrain-var-domain vars)))
   ;; => ((1 1 1 1 1 1 1 1 1) (2 1 1 1 1 1 1 1 1) (1 2 1 1 1 1 1 1 1))
 
   ;; ASSIGNMENT
-  ;; Add a constraint that causes all numbers from 1-9 to be used in each
-  ;; solution. Look at http://clojuredocs.org/clojure.core.logic.fd for tools.
+  ;; Add a constraint to the previous run that causes all numbers from 1-9 to
+  ;; be used in each solution. In other words, all numbers have to be distinct.
+  ;; Look at http://clojuredocs.org/clojure.core.logic.fd for tools.
 
   ;; SOLUTION
   (let [vars (repeatedly 9 lvar)]
@@ -143,7 +154,8 @@
          (fd/distinct vars)))
   ;; => ((1 2 3 4 5 6 7 8 9) (2 1 3 4 5 6 7 8 9) (1 3 2 4 5 6 7 8 9))
 
-  ;; Next step is to provide some pieces of the puzzle that are given to us.
+  ;; Next step is to provide some pieces of the puzzle that are given to us,
+  ;; some hints, just like when you're solving a sudoku.
   ;; We do that by inputting a list of 9 numbers. The spots that the program
   ;; needs to fill in are zero; the hints given to us by the puzzle maker are
   ;; the other numbers. For example, [0 5 0 0 3 0 0 0 0] says that the second
