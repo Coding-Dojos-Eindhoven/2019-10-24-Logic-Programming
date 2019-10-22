@@ -249,4 +249,44 @@
   ;; numbers, but also all 3x3 squares of the puzzle.
 
   ;; SOLUTION 
+  (defn get-square [rows x y]
+    (for [x (range x (+ x 3))
+          y (range y (+ y 3))]
+      (get-in rows [x y])))
+
+  (defn squares [rows]
+    (for [x (range 0 9 3)
+          y (range 0 9 3)]
+      (get-square rows x y)))
+
+  (def hints [2 0 7 0 1 0 5 0 8
+              0 0 0 6 7 8 0 0 0
+              8 0 0 0 0 0 0 0 6
+              0 7 0 9 0 6 0 5 0
+              4 9 0 0 0 0 0 1 3
+              0 3 0 4 0 1 0 2 0
+              5 0 0 0 0 0 0 0 1
+              0 0 0 2 9 4 0 0 0
+              3 0 6 0 8 0 4 0 9])
+  (partition 9 (first
+                (let [vars (repeatedly (count hints) lvar)
+                      rows (rows vars)
+                      cols (transpose rows)
+                      squares (squares rows)]
+                  (run 1 [q]
+                       (== q vars)
+                       (bind-all vars hints)
+                       (everyg constrain-to-domain vars)
+                       (everyg fd/distinct rows)
+                       (everyg fd/distinct cols)
+                       (everyg fd/distinct squares)))))
+  ;; => ((2 6 7 3 1 9 5 4 8)
+  ;;     (9 5 4 6 7 8 1 3 2)
+  ;;     (8 1 3 5 4 2 7 9 6)
+  ;;     (1 7 2 9 3 6 8 5 4)
+  ;;     (4 9 5 8 2 7 6 1 3)
+  ;;     (6 3 8 4 5 1 9 2 7)
+  ;;     (5 4 9 7 6 3 2 8 1)
+  ;;     (7 8 1 2 9 4 3 6 5)
+  ;;     (3 2 6 1 8 5 4 7 9))
   )
