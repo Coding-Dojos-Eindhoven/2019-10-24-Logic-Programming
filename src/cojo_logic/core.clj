@@ -210,22 +210,23 @@
                            7 8 9]))
   ;; => [[1 4 7] [2 5 8] [3 6 9]]
 
+  (def hints [2 0 7 0 1 0 5 0 8
+              0 0 0 6 7 8 0 0 0
+              8 0 0 0 0 0 0 0 6
+              0 7 0 9 0 6 0 5 0
+              4 9 0 0 0 0 0 1 3
+              0 3 0 4 0 1 0 2 0
+              5 0 0 0 0 0 0 0 1
+              0 0 0 2 9 4 0 0 0
+              3 0 6 0 8 0 4 0 9])
+
   ;; ASSIGNMENT
   ;; Extend the query above to not only cause all rows to contain distinct numbers,
   ;; but also all columns.
 
   ;; SOLUTION
   (partition 9 (first
-                (let [hints [2 0 7 0 1 0 5 0 8
-                             0 0 0 6 7 8 0 0 0
-                             8 0 0 0 0 0 0 0 6
-                             0 7 0 9 0 6 0 5 0
-                             4 9 0 0 0 0 0 1 3
-                             0 3 0 4 0 1 0 2 0
-                             5 0 0 0 0 0 0 0 1
-                             0 0 0 2 9 4 0 0 0
-                             3 0 6 0 8 0 4 0 9]
-                      vars (repeatedly (count hints) lvar)
+                (let [vars (repeatedly (count hints) lvar)
                       rows (rows vars)
                       cols (transpose rows)]
                   (run 1 [q]
@@ -259,15 +260,6 @@
           y (range 0 9 3)]
       (get-square rows x y)))
 
-  (def hints [2 0 7 0 1 0 5 0 8
-              0 0 0 6 7 8 0 0 0
-              8 0 0 0 0 0 0 0 6
-              0 7 0 9 0 6 0 5 0
-              4 9 0 0 0 0 0 1 3
-              0 3 0 4 0 1 0 2 0
-              5 0 0 0 0 0 0 0 1
-              0 0 0 2 9 4 0 0 0
-              3 0 6 0 8 0 4 0 9])
   (partition 9 (first
                 (let [vars (repeatedly (count hints) lvar)
                       rows (rows vars)
