@@ -211,7 +211,7 @@
   ;; => [[1 4 7] [2 5 8] [3 6 9]]
 
   ;; ASSIGNMENT
-  ;; Extend the query above to not only cause all rows to have distinct numbers,
+  ;; Extend the query above to not only cause all rows to contain distinct numbers,
   ;; but also all columns.
 
   ;; SOLUTION
