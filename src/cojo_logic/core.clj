@@ -150,7 +150,7 @@
   (let [vars (repeatedly 9 lvar)]
     (run 3 [q]
          (== q vars)
-         (everyg #(fd/in % (fd/domain 1 2 3 4 5 6 7 8 9)) vars)
+         (everyg constrain-to-domain vars)
          (fd/distinct vars)))
   ;; => ((1 2 3 4 5 6 7 8 9) (2 1 3 4 5 6 7 8 9) (1 3 2 4 5 6 7 8 9))
 
