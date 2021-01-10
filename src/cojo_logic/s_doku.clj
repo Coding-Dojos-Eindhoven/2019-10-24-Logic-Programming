@@ -1,7 +1,7 @@
 (ns cojo-logic.s-doku
   (:refer-clojure :exclude [==])
-  (:use clojure.core.logic)
-  (:require [clojure.core.logic.fd :as fd]
+  (:require [clojure.core.logic :refer [== run lvar everyg]]
+            [clojure.core.logic.fd :as fd]
             [cojo-logic.sudoku :refer [rows
                                        transpose
                                        squares

@@ -1,7 +1,8 @@
 (ns cojo-logic.sudoku
   (:refer-clojure :exclude [==])
-  (:use clojure.core.logic)
-  (:require [clojure.core.logic.fd :as fd]))
+  (:require [clojure.core.logic :refer [== run lvar succeed and* everyg]]
+            [clojure.core.logic.fd :as fd]
+            [clojure.pprint :refer [pprint]]))
 
 ;;
 ;; Sudoku Solver
@@ -80,7 +81,7 @@
   [board]
   (->> board
        (partition 9)
-       (clojure.pprint/pprint)))
+       (pprint)))
 
 (comment
   (def solution (first (solve-sudoku sudoku)))

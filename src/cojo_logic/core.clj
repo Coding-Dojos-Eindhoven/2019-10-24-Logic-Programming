@@ -1,7 +1,7 @@
 (ns cojo-logic.core
   (:refer-clojure :exclude [==])
-  (:use clojure.core.logic)
-  (:require [clojure.core.logic.fd :as fd]))
+  (:require [clojure.core.logic :refer [== defnc membero conso conde run run* lvar everyg succeed and*]]
+            [clojure.core.logic.fd :as fd]))
 
 (comment
   ;; First some basics. `run*` finds all solutions; it takes a logical variable
