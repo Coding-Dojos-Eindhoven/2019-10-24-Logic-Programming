@@ -1,0 +1,2 @@
+{:lint-as {clojure.core.logic/defnc clojure.core/defn
+           clojure.core.logic/run* clojure.core/fn}}

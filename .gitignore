@@ -3,5 +3,10 @@ pom.xml
 pom.xml.asc
 **/gen
 **/target
-.*
 !.gitignore
+.cpcache/*
+.calva/*
+.clj-kondo/cache/*
+.clj-kondo/.cache/*
+.lsp/*
+.nrepl-port
