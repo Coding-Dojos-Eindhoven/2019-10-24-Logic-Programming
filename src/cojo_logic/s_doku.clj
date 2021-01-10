@@ -128,10 +128,11 @@
   ;;     [[0 1 0 0 0 1 1 0 0] [8 17 26 35 44 53 62 71 80]])
   )
 
-(defn select-enabled [[enabled-seq seq]]
+(defn select-enabled 
   "Takes a pair, containing a list of zeros and ones (the enabled
    indicators), and a row/col from the board, and returns the elements
    of the row/col for which the enabled indicator is one."
+  [[enabled-seq seq]]
   (->> [enabled-seq seq]
        (apply map vector)
        (filter (comp not zero? first))
