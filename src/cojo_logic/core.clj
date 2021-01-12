@@ -165,10 +165,21 @@
     (if-not (zero? hint)
       (== var hint)
       succeed))
+  
+  ;; Interlude: you can map a function over multiple collections in Clojure.
+  ;; This way the mapping function will be called with one of the elements
+  ;; from each collection. For example:
+  
+  (map * [1 2 3] [10 20 30])
+  ;; => (10 40 90)
 
+  ;; With that way of using `map`, we can now say:
+  
   (defn bind-all [vars hints]
     (and* (map bind vars hints)))
 
+  ;; And finally the run itself:
+  
   (let [hints [0 5 0 0 3 0 0 0 0]
         vars (repeatedly (count hints) lvar)]
     (run 3 [q]
